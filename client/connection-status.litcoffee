@@ -17,7 +17,7 @@ Clear the interval, just to be safe.
 
       modalOptions =
         dismissible: no
-        opacity: .5
+        opacity: .8
         in_duration: 300
         out_duration: 200
 

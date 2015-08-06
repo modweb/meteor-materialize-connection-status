@@ -1,7 +1,7 @@
 Package.describe({
   name: 'modweb:materialize-connection-status',
   summary: 'Materialized connection status.',
-  version: '0.0.1',
+  version: '0.0.2',
   git: 'https://github.com/modweb/meteor-materialize-connection-status'
 });
 
