@@ -3,6 +3,7 @@ Package.describe({
   summary: 'Materialized connection status.',
   version: '0.0.2',
   git: 'https://github.com/modweb/meteor-materialize-connection-status'
+  version: '0.0.3',
 });
 
 Package.onUse(function(api) {

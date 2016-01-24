@@ -3,12 +3,16 @@
       retryCount: -> Meteor.status().retryCount
 
     Template.connectionStatus.events
-      'click .reconnect': -> Meteor.reconnect()
+      'click .reconnect': ->
+        if Meteor.status().connected
+          $('#connection-status-modal').closeModal()
+        else
+          Meteor.reconnect()
 
     Template.connectionStatus.onCreated ->
       instance = this
 
-      instance.isConnected = null
+      instance.isConnected = true
       instance.retryTime = new ReactiveVar null
 
 Clear the interval, just to be safe.
@@ -31,15 +35,30 @@ Clear the interval, just to be safe.
 If the client was connected, but is now disconnected, open the modal
 
         if instance.isConnected and not Meteor.status().connected
-          $('#connection-status-modal').openModal modalOptions
 
-Immediately update seconds until retry
+          showDisconnectDialog = ->
+            $('#connection-status-modal').openModal modalOptions
 
-          updateSecondsUntilRetry()
+  Immediately update seconds until retry
 
-Update seconds until retry ever second
+            updateSecondsUntilRetry()
 
-          instance.retryTimeInterval = Meteor.setInterval updateSecondsUntilRetry, 1000
+  Update seconds until retry ever second
+
+            instance.retryTimeInterval = Meteor.setInterval updateSecondsUntilRetry, 1000
+
+          testConnectionAgainForCordova = ->
+            if not Meteor.status().connected
+              # we're still not connected.
+              showDisconnectDialog();
+
+          if Meteor.isCordova
+            # wait a few seconds then test again
+            console.log("meteor says it's not connected; waiting 5 secs.")
+            Meteor.setTimeout(testConnectionAgainForCordova, 5000)
+          else
+            # show the dialog immediately.
+            showDisconnectDialog()
 
 Update the reactive var `isConnected`
 
