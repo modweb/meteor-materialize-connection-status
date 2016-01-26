@@ -24,6 +24,7 @@ Clear the interval, just to be safe.
         opacity: .8
         in_duration: 300
         out_duration: 200
+        complete: -> $('.lean-overlay').remove()
 
       updateSecondsUntilRetry = ->
         retryTime = Math.round (Meteor.status().retryTime - (new Date()).getTime())/1000
