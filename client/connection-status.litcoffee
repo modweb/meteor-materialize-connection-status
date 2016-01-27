@@ -1,3 +1,8 @@
+
+    closeModal = ->
+      $('#connection-status-modal').closeModal()
+      $('.lean-overlay').remove()
+
     Template.connectionStatus.helpers
       secondsUntilReconnectionAttempt: -> Template.instance().retryTime.get()
       retryCount: -> Meteor.status().retryCount
@@ -5,7 +10,7 @@
     Template.connectionStatus.events
       'click .reconnect': ->
         if Meteor.status().connected
-          $('#connection-status-modal').closeModal()
+          closeModal()
         else
           Meteor.reconnect()
 
@@ -68,5 +73,5 @@ Update the reactive var `isConnected`
 If connection is restored, attempt to close modal (will always be closed on initial connection) and clear the retryTime interval
 
         if instance.isConnected
-         $('#connection-status-modal').closeModal()
-         Meteor.clearInterval instance.retryTimeInterval
+          closeModal()
+          Meteor.clearInterval instance.retryTimeInterval
